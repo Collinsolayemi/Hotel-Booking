@@ -1,20 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = required('mongoose');
 
-const userSchema = new mongoose.Schema(
+const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     country: {
       type: String,
-      require: true,
+      required: true,
     },
     img: {
       type: String,
@@ -24,11 +24,11 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      require: true,
+      required: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     isAdmin: {
       type: Boolean,
@@ -40,4 +40,4 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('User', UserSchema);
