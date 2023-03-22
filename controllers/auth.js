@@ -1,6 +1,6 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
-const createError = require('../utils/error');
+const { createError } = require('../utils/error');
 const jwt = require('jsonwebtoken');
 
 //Register functionality
@@ -15,8 +15,10 @@ const register = async (req, res, next) => {
       password: hash,
     });
 
+    newUser.save();
+
     //send the response to the user
-    res.status(201).send('User have been created');
+    res.status(201).send('User created successfully');
   } catch (error) {
     next(error);
   }
@@ -26,13 +28,13 @@ const register = async (req, res, next) => {
 const logIn = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    if (!user) return next(new createError(404, 'User not found'));
+    if (!user) return next(new (404, 'User not found')());
 
     //comapring passwords
     const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
 
     if (!isPasswordCorrect) {
-      return next(new createError(400, 'Password incorrect or username incorrect'));
+      return next(createError(400, 'Password incorrect or username incorrect'));
     }
 
     //Sending token to the user if credential are correct
