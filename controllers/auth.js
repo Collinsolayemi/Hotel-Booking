@@ -28,7 +28,7 @@ const register = async (req, res, next) => {
 const logIn = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    if (!user) return next(new (404, 'User not found')());
+    if (!user) return next(createError(404, 'User not found'));
 
     //comapring passwords
     const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
@@ -43,12 +43,19 @@ const logIn = async (req, res, next) => {
     //destructing the hidden field in the response body
     const { password, isAdmin, ...otherDetails } = user._doc;
 
-    res
-      .cookie('access-token', token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ details: { ...otherDetails } });
+    // res
+    //   .cookie('access-token', token, {
+    //     httpOnly: true,
+    //   })
+    //   .status(200)
+    //   .json({ details: { ...otherDetails } });
+
+    res.status(200).json({
+      token,
+      user: {
+        ...otherDetails,
+      },
+    });
   } catch (error) {
     next(error);
   }
