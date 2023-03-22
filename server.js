@@ -37,6 +37,6 @@ app.use('/api/auth', authRoute);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  // db_connect()
+  db_connect();
   console.log(`App running on port ${port}`);
 });

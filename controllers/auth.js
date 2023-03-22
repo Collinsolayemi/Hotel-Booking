@@ -1,10 +1,10 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
-const { createError } = require('../utils/error');
+const createError = require('../utils/error');
 const jwt = require('jsonwebtoken');
 
 //Register functionality
-export const register = async (req, res, next) => {
+const register = async (req, res, next) => {
   try {
     //hashing the password
     const salt = bcrypt.genSaltSync(10);
@@ -21,3 +21,20 @@ export const register = async (req, res, next) => {
     next(error);
   }
 };
+
+//Login user
+const logIn = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) return next(new createError(404, 'User not found'));
+
+    //comapring passwords
+    const isPasswordChorrect = await bcrypt.compare(req.body.password, user.password);
+
+    if (!isPasswordChorrect) {
+      return next(new createError(400, 'Password incorrect or username incorrect'));
+    }
+  } catch (error) {}
+};
+
+module.exports = { logIn, register };
