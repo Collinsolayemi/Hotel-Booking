@@ -27,12 +27,16 @@ const register = async (req, res, next) => {
 //Login functionality
 const logIn = async (req, res, next) => {
   try {
+    //Check if input fields is not empty
+    const { username } = req.body;
+    if (!username) return next(createError(400, 'PLease input your username'));
+
+    //Getting user base on email given
     const user = await User.findOne({ username: req.body.username });
     if (!user) return next(createError(404, 'User not found'));
 
     //comapring passwords
     const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
-
     if (!isPasswordCorrect) {
       return next(createError(400, 'Password incorrect or username incorrect'));
     }
