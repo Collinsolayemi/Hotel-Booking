@@ -22,19 +22,34 @@ const register = async (req, res, next) => {
   }
 };
 
-//Login user
+//Login functionality
 const logIn = async (req, res, next) => {
   try {
     const user = await User.findOne({ username: req.body.username });
     if (!user) return next(new createError(404, 'User not found'));
 
     //comapring passwords
-    const isPasswordChorrect = await bcrypt.compare(req.body.password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
 
-    if (!isPasswordChorrect) {
+    if (!isPasswordCorrect) {
       return next(new createError(400, 'Password incorrect or username incorrect'));
     }
-  } catch (error) {}
+
+    //Sending token to the user if credential are correct
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT);
+
+    //destructing the hidden field in the response body
+    const { password, isAdmin, ...otherDetails } = user._doc;
+
+    res
+      .cookie('access-token', token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ details: { ...otherDetails } });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { logIn, register };
