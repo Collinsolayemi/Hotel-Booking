@@ -1,6 +1,6 @@
 # HOTEL BOOKING APP
 
-### A project built using ```Node.Js```, ```Express.JS``` and ```Mongo DB```
+### A ```Node.JS``` project built using  ```Express.JS``` for the _framework_ and ```Mongo DB``` for the _database_
 
 ## Description
 This is an application for a ***complete hotel management and booking system*** that manage all operations in the hotel industry business. It works by processing online booking securely through hotel's website. This hotel data can be accessed by hotels to manage bookings and provides instant confirmation for hotel boking for the user.
