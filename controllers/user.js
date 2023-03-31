@@ -6,7 +6,12 @@ export const updateUser = async (req, res, next) => {
     if (!update) {
     }
 
-    res.status(200).json(update);
+    res.status(200).json({
+      status: 'status',
+      user: {
+        update,
+      },
+    });
   } catch (error) {
     next(error);
   }
@@ -24,7 +29,27 @@ export const deleteUser = async (req, res, next) => {
 export const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(200).json(user);
+    res.status(200).json({
+      status: 'success',
+      user: {
+        user,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllUser = async (req, res, next) => {
+  try {
+    const user = await User.find();
+    res.status(200).json({
+      status: 'success',
+      number: user.length,
+      users: {
+        user,
+      },
+    });
   } catch (error) {
     next(error);
   }
