@@ -56,7 +56,7 @@ const logIn = async (req, res, next) => {
     //     httpOnly: true,
     //   })
     //   .status(200)
-    //   .json({ details: { ...otherDetails } });
+    //   .json({ details: { ...otherDetails }, isAdmin, access_token: token });
 
     res.status(200).json({
       token,
