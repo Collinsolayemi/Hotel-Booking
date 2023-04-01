@@ -1,11 +1,7 @@
 const User = require('../models/user');
-//import { User } from '../models/user';
 const bcrypt = require('bcryptjs');
 const { createError } = require('../utils/error');
 const jwt = require('jsonwebtoken');
-// import { bcrypt } from 'bcryptjs';
-// import { createError } from '../utils/error';
-// import { jwt } from 'jsonwebtoken';
 
 //Register functionality
 const register = async (req, res, next) => {

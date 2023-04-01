@@ -1,21 +1,25 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import bcrypt from 'bcryptjs';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import jsonwebtoken from 'jsonwebtoken';
-import mongoose from 'mongoose';
+//import express from 'express';
+//import dotenv from 'dotenv';
+//import bcrypt from 'bcryptjs';
+// import cookieParser from 'cookie-parser';
+// import cors from 'cors';
+// import jsonwebtoken from 'jsonwebtoken';
+// import mongoose from 'mongoose';
 
-// const express = require('express');
-// const dotenv = require('dotenv').config();
-// const mongoose = require('mongoose');
-// const cookieParser = require('cookie-parser');
-// const cors = require('cors');
-// const app = express();
+const express = require('express');
+const dotenv = require('dotenv');
+dotenv.config();
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const app = express();
+const bcrypt = require('bcryptjs');
+const jsonwebtoken = require('jsonwebtoken');
 
 //Import routes
-//const authRoute = require('./routes/auth');
-import authRoute from './routes/auth.js';
+const authRoute = require('./routes/auth');
+const userRoute = require('./routes/user');
+const { use } = require('./routes/auth');
 
 //Global error handler
 app.use((err, req, res, next) => {
@@ -48,6 +52,7 @@ app.use(express.json());
 
 //routes
 app.use('/api/auth', authRoute);
+app.use('/api/user', userRoute);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
